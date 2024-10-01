@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Emotion Detection and Chatbot</title>
+    <script>
+        let emotionsArray = [];
+        const emotionCaptureInterval = 1000; // Capture emotion every 1 second
+        const emotionAveragePeriod = 5000; // Calculate average emotion every 5 seconds
+
+        // Function to update the background color based on detected emotion
+        function changeBackgroundColor(emotion) {
+            const body = document.body;
+            const chatbotBox = document.getElementById("chatbot-box");
+
+            switch (emotion) {
+                case 'happy':
+                    body.style.backgroundColor = "#fce4b7"; // Pastel yellow
+                    chatbotBox.style.backgroundColor = "#ffdab9"; // Lighter pastel
+                    break;
+                case 'sad':
+                    body.style.backgroundColor = "#c7e9f1"; // Pastel blue
+                    chatbotBox.style.backgroundColor = "#e6f7ff"; // Lighter pastel
+                    break;
+                case 'angry':
+                    body.style.backgroundColor = "#f6b6b5"; // Pastel red
+                    chatbotBox.style.backgroundColor = "#ffcccb"; // Lighter pastel
+                    break;
+                case 'surprised':
+                    body.style.backgroundColor = "#fde8b9"; // Pastel orange
+                    chatbotBox.style.backgroundColor = "#fff4d9"; // Lighter pastel
+                    break;
+                case 'neutral':
+                    body.style.backgroundColor = "#f8f1e7"; // Default pastel background
+                    chatbotBox.style.backgroundColor = "#fce9e9"; // Default pastel box
+                    break;
+                default:
+                    body.style.backgroundColor = "#f8f1e7";
+                    chatbotBox.style.backgroundColor = "#fce9e9";
+                    break;
+            }
+        }
+
+        // Fetch the detected emotion from the server periodically
+        setInterval(() => {
+            fetch('/get_emotion')
+                .then(response => response.json())
+                .then(data => {
+                    // Add the detected emotion to the array
+                    emotionsArray.push(data.emotion);
+
+                    // Maintain array size to match the emotionAveragePeriod (5 seconds)
+                    if (emotionsArray.length > emotionAveragePeriod / (emotionCaptureInterval)) {
+                        emotionsArray.shift(); // Remove the oldest emotion
+                    }
+                });
+        }, emotionCaptureInterval);
+
+        // Calculate the most frequent emotion every 5 seconds
+        setInterval(() => {
+            if (emotionsArray.length > 0) {
+                const emotionFrequency = {};
+
+                // Count frequency of each emotion
+                emotionsArray.forEach(emotion => {
+                    if (emotionFrequency[emotion]) {
+                        emotionFrequency[emotion]++;
+                    } else {
+                        emotionFrequency[emotion] = 1;
+                    }
+                });
+
+                // Find the emotion with the highest frequency
+                const mostFrequentEmotion = Object.keys(emotionFrequency).reduce((a, b) => 
+                    emotionFrequency[a] > emotionFrequency[b] ? a : b
+                );
+
+                // Update the background color only if the most frequent emotion is different from the previous one
+                changeBackgroundColor(mostFrequentEmotion);
+            }
+        }, emotionAveragePeriod);
+
+        // Send message to chatbot and display the response
+        function sendMessage() {
+            const userMessage = document.getElementById("user-message").value;
+            const chatbox = document.getElementById("chatbox");
+
+            // Display user's message
+            const userMessageElement = document.createElement("p");
+            userMessageElement.textContent = "You: " + userMessage;
+            userMessageElement.className = "user-message";
+            chatbox.appendChild(userMessageElement);
+
+            fetch('/chatbot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: userMessage })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display chatbot's response
+                const chatbotMessageElement = document.createElement("p");
+                chatbotMessageElement.textContent = "Chatbot: " + data.response;
+                chatbotMessageElement.className = "chatbot-message";
+                chatbox.appendChild(chatbotMessageElement);
+            });
+
+            document.getElementById("user-message").value = "";
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Facial Emotion Detection & Chatbot</h1>
+
+        <div id="chatbot-box">
+            <div id="chatbox"></div>
+            <input type="text" id="user-message" placeholder="Type your message here..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+
+        <div>
+            <img src="{{ url_for('video_feed') }}" alt="Video Stream" id="video-stream">
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    transition: background-color 0.5s;
+    font-family: Arial, sans-serif;
+    background-color: #f8f1e7; /* Light pastel background */
+}
+
+.container {
+    text-align: center;
+}
+
+#chatbot-box {
+    width: 60%;
+    max-width: 700px;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 20px;  /* More rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Deeper shadow for more depth */
+    background-color: #fce9e9; /* Light pastel pink for the chatbot box */
+    transition: background-color 0.5s;
+}
+
+#chatbox {
+    height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 15px; /* More rounded corners */
+    background-color: #faf3f3; /* Very light pastel background */
+}
+
+input[type="text"] {
+    width: calc(100% - 80px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 15px; /* More rounded corners */
+    background-color: #f8f8f8;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05); /* Slight inset shadow */
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #a2d2ff; /* Light pastel blue */
+    color: white;
+    border-radius: 15px; /* More rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slight shadow for button depth */
+}
+
+button:hover {
+    background-color: #72b4ff; /* Darker pastel blue on hover */
+}
+
+img {
+    width: 200px; /* Smaller camera feed in bottom corner */
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
