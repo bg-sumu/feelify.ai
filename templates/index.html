@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <title>Not your Normal Ok wala Friend</title>
+    <title>Feelify.AI</title>
     <script>
         let emotionsArray = [];
         const emotionCaptureInterval = 1000;
@@ -82,7 +82,7 @@
             const userMessage = document.getElementById("user-message").value;
             const chatbox = document.getElementById("chatbox");
 
-            // Display user's message on the left
+            // Display user's message on the right
             const userMessageElement = document.createElement("div");
             userMessageElement.textContent = userMessage;
             userMessageElement.className = "user-message";
@@ -97,7 +97,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                // Display chatbot's response on the right without stars
+                // Display chatbot's response on the left without stars
                 const chatbotMessageElement = document.createElement("div");
                 chatbotMessageElement.textContent = data.response;
                 chatbotMessageElement.className = "chatbot-message";
@@ -110,10 +110,12 @@
 </head>
 <body>
     <div class="container">
-        <h1>Facial Emotion Detection & Chatbot</h1>
+        <h1>Feelify.AI</h1>
 
         <div id="chatbot-box">
-            <div id="chatbox"></div>
+            <div id="chatbox">
+                <div class="chatbot-message">{{ starter_sentence }}</div> <!-- Displaying the starter sentence -->
+            </div>
             <div class="input-container">
                 <input type="text" id="user-message" placeholder="Type your message here..." />
                 <button onclick="sendMessage()">Send</button>
@@ -124,9 +126,11 @@
             <img src="{{ url_for('video_feed') }}" alt="Video Stream" id="video-stream">
         </div>
     </div>
+    <div>
+        Feel free to express your emotions :) 
+    </div>
 </body>
-<!-- Add a Footer which tells "A Project by Neural Ninjas" -->
 <footer>
-    <p>A Project by Neural Ninjas</p>
+    An App by Neural Ninjas
 </footer>
 </html>
