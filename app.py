@@ -2,7 +2,7 @@ from flask import Flask, render_template, Response, jsonify, request
 import cv2
 import random
 import google.generativeai as genai
-from google_api_key import google_api_key
+from google_api_key import google_api_key #create a separate python file and stroe your API Key there 
 
 # Flask app initialization
 app = Flask(__name__)
@@ -80,7 +80,6 @@ def get_emotion():
     emotions = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
     return jsonify({'emotion': random.choice(emotions)})
 
-# Chatbot route using the Generative AI model
 # Chatbot route using the Generative AI model
 @app.route('/chatbot', methods=['POST'])
 def chatbot():

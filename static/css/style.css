@@ -10,6 +10,22 @@ body {
     transition: background-color 0.5s;
     font-family: 'Poppins', sans-serif;
     background-color: #f8f1e7;
+    overflow-x: hidden; /* Prevent horizontal scroll on smaller screens */
+}
+
+.logo-container {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 9999; /* Ensures the logo stays on top */
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .container {
@@ -22,7 +38,7 @@ body {
 }
 
 #chatbot-box {
-    width: 80%;
+    width: 90%;
     max-width: 700px;
     margin-top: 20px;
     border: 1px solid #ccc;
@@ -35,7 +51,7 @@ body {
 }
 
 #chatbox {
-    height: 500px;
+    height: 400px;
     overflow-y: auto;
     border: 1px solid #ccc;
     padding: 15px;
@@ -68,6 +84,7 @@ body {
     display: flex;
     justify-content: center; /* Centers the button and input */
     margin-top: 10px; /* Space between the chatbox and input area */
+    flex-wrap: wrap; /* Wraps the input and button on smaller screens */
 }
 
 input[type="text"] {
@@ -77,6 +94,7 @@ input[type="text"] {
     border-radius: 15px;
     background-color: #f8f8f8;
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 10px; /* Add margin for small screen wrapping */
 }
 
 button {
@@ -94,35 +112,49 @@ button:hover {
     background-color: #72b4ff;
 }
 
-img {
-    width: 200px;
-    height: auto;
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+.video-container {
     position: fixed;
     bottom: 20px;
     right: 20px;
+    z-index: 9998; /* Ensures it stays on top, but beneath the logo */
 }
 
-@media (max-width: 768px) {
-    #chatbot-box {
-        width: 90%;
+#video-stream {
+    width: 100px;
+    height: 100px;
+    border-radius: 15px;
+    object-fit: cover;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 600px) {
+    .logo {
+        width: 75px;
+        height: 75px;
+    }
+
+    #video-stream {
+        width: 75px;
+        height: 75px;
     }
 
     #chatbox {
         height: 300px;
     }
 
-    img {
-        max-width: 150px;
+    .input-container {
+        flex-direction: column;
     }
-}
 
-h1 {
-    font-weight: 700; 
-    color: #131101; 
-    padding: 10px; 
-    text-align: center; 
-    font-family: 'Poppins', sans-serif;
+    input[type="text"] {
+        width: 100%;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .video-container {
+        bottom: 5%; /* Adjust to make sure it doesn't overlap the input section */
+    }
 }

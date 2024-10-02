@@ -32,8 +32,8 @@
                     chatbotBox.style.backgroundColor = "#e9f9e6";
                     break;
                 case 'fear':
-                    body.style.backgroundColor = "#d1d8e0";
-                    chatbotBox.style.backgroundColor = "#e6eaf1";
+                    body.style.backgroundColor = "#f4c2c2";
+                    chatbotBox.style.backgroundColor = "#fde2e2";
                     break;
                 case 'surprise':
                     body.style.backgroundColor = "#fde8b9";
@@ -80,6 +80,8 @@
 
         function sendMessage() {
             const userMessage = document.getElementById("user-message").value;
+            if (userMessage.trim() === "") return;
+
             const chatbox = document.getElementById("chatbox");
 
             // Display user's message on the right
@@ -102,16 +104,31 @@
                 chatbotMessageElement.textContent = data.response;
                 chatbotMessageElement.className = "chatbot-message";
                 chatbox.appendChild(chatbotMessageElement);
+
+                // Scroll to the latest message
+                chatbox.scrollTop = chatbox.scrollHeight;
             });
 
             document.getElementById("user-message").value = "";
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const userMessageInput = document.getElementById("user-message");
+            userMessageInput.addEventListener("keyup", (event) => {
+                if (event.key === "Enter") {
+                    sendMessage();
+                }
+            });
+        });
     </script>
 </head>
 <body>
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Feelify.AI Logo" class="logo">
+    </div>
+
     <div class="container">
         <h1>Feelify.AI</h1>
-
         <div id="chatbot-box">
             <div id="chatbox">
                 <div class="chatbot-message">{{ starter_sentence }}</div> <!-- Displaying the starter sentence -->
@@ -121,13 +138,14 @@
                 <button onclick="sendMessage()">Send</button>
             </div>
         </div>
-
-        <div>
-            <img src="{{ url_for('video_feed') }}" alt="Video Stream" id="video-stream">
-        </div>
     </div>
+
+    <div class="video-container">
+        <img src="{{ url_for('video_feed') }}" alt="Video Stream" id="video-stream">
+    </div>
+
     <div>
-        Feel free to express your emotions :) 
+        Feel free to express your emotions :)
     </div>
 </body>
 <footer>
