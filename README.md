@@ -19,8 +19,8 @@
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/Feelify.AI.git
-   cd Feelify.AI
+   git clone https://github.com/bg-sumu/feelify.ai.git
+   cd feelify.ai
    ```
 
 2. **Install the Dependencies**
